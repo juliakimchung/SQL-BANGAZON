@@ -1,4 +1,13 @@
-
+DELETE FROM Computer;
+DELETE FROM TrainingProgram;
+DELETE FROM Supervisor;
+DELETE FROM Employee;
+DELETE FROM Department;
+DELETE FROM ProductType;
+DELETE FROM Product;
+DELETE FROM PaymentType;
+DELETE FROM Customer;
+DELETE FROM Orders;
 
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS PaymentType;
