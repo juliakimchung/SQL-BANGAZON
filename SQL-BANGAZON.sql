@@ -1,13 +1,4 @@
-DELETE FROM Computer;
-DELETE FROM TrainingProgram;
-DELETE FROM Supervisor;
-DELETE FROM Employee;
-DELETE FROM Department;
-DELETE FROM ProductType;
-DELETE FROM Product;
-DELETE FROM PaymentType;
-DELETE FROM Customer;
-DELETE FROM Orders;
+
 
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS PaymentType;
@@ -15,7 +6,7 @@ DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS Product;
 DROP TABLE IF EXISTS ProductType;
 DROP TABLE IF EXISTS Computer;
-DROP TABLE IF EXISTS Training;
+DROP TABLE IF EXISTS TrainingProgram;
 DROP TABLE IF EXISTS Employee;
 DROP TABLE IF EXISTS Department;
 DROP TABLE IF EXISTS Supervisor;
@@ -63,7 +54,7 @@ CREATE TABLE `Computer` (
 	FOREIGN KEY(`EmployeeId`) REFERENCES `Employee`(`EmployeeId`)
 );
 
-INSERT INTO Computer VALUES(null, "1/3/07", "1/3/18", 1)
+INSERT INTO Computer VALUES(null, "1/3/07","1/3/18",1)
 INSERT INTO Computer VALUES(null, "1/3/11","1/3/20", 2)
 INSERT INTO Computer VALUES(null, "1/3/09", "1/5/18", 3 )
 INSERT INTO Computer VALUES(null, "1/3/14", "1/5/18", 4)
@@ -145,7 +136,7 @@ CREATE TABLE `Customer` (
 	`AcctStartDay` INTEGER NOT NULL,
 	`Active`	BOOLEAN NOT NULL,
 	`OrderId` INTEGER,
-	FOREIGN KEY(`OrderId`) REFERENCES `Order`(`OrderId`)
+	FOREIGN KEY(`OrderId`) REFERENCES `Orders`(`OrderId`)
 
 );
 
@@ -168,7 +159,91 @@ CREATE TABLE `Orders` (
 	FOREIGN KEY(`CustomerId`) REFERENCES `Customer`(`CustomerId`)
 )
 
-INSERT INTO  Orders VALUES(null, "2", "3", "5")
+INSERT INTO  Orders VALUES(null, "2", "3", "1")
+INSERT INTO  Orders VALUES(null, "1", "2", "2")
+INSERT INTO  Orders VALUES(null, "3", "4", "3")
+INSERT INTO  Orders VALUES(null, "1", "5", "3")
+INSERT INTO  Orders VALUES(null, "1", "6", "5")
+INSERT INTO  Orders VALUES(null, "2", "7", "4")
+INSERT INTO  Orders VALUES(null, "2", "2", "6")
+INSERT INTO  Orders VALUES(null, "3", "2", "6")
+INSERT INTO  Orders VALUES(null, "1", "3", "4")
 
+
+SELECT o.CustomerId, c.CustomerId, c.OrderId, c.LastName
+FROM Orders o, Customer c
+WHERE o.CustomerId = c.CustomerId
+GROUP BY o.CustomerId ORDER BY c.LastName
+
+UPDATE Customer
+SET OrderId = 1
+Where CustomerId = 3
+
+UPDATE Customer
+SET OrderId = 2
+Where CustomerId = 2
+
+UPDATE Customer
+SET OrderId = 3
+Where CustomerId = 4
+
+UPDATE Customer
+SET OrderId = 4
+Where CustomerId = 5
+
+UPDATE Customer
+SET OrderId = 5
+Where CustomerId = 6
+
+UPDATE Customer
+SET OrderId = 6
+Where CustomerId = 7
+
+UPDATE Customer
+SET OrderId = 7
+Where CustomerId = 2
+
+UPDATE Customer
+SET OrderId = 8
+Where CustomerId = 2
+
+UPDATE Customer
+SET OrderId = 9
+Where CustomerId = 3
+
+SELECT CustomerId, ProductId
+FROM ORDERS
+
+UPDATE Product
+SET CustomerId = 3
+Where ProductId = 5
+
+UPDATE Product
+SET CustomerId = 2
+Where ProductId = 2
+
+UPDATE Product
+SET CustomerId = 4
+Where ProductId = 7
+
+UPDATE Product
+SET CustomerId = 5
+Where ProductId = 3
+
+UPDATE Product
+SET CustomerId = 6
+Where ProductId = 5
+
+UPDATE Product
+SET CustomerId = 7
+Where ProductId = 4
+
+UPDATE Product
+SET CustomerId = 2
+Where ProductId = 6
+
+UPDATE Product
+SET CustomerId = 3
+Where ProductId = 1
 
 
