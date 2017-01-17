@@ -8,6 +8,7 @@ DELETE FROM OrderItems;
 DELETE FROM Product;
 DELETE FROM Orders;
 DELETE FROM ProductType;
+DELETE FROM PaymentTYpe;
 DELETE FROM Customer;
 
 
@@ -183,6 +184,7 @@ INSERT INTO  Orders VALUES(null, "1", "3")
 CREATE TABLE `OrderItems` (
 	`OrderItemId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`Quantity` INTEGER NOT NULL,
+	`ProductPrice` INTEGER NOT NULL,
 	`PaymentTypeId` INTEGER NOT NULL,
 	`CustomerId`	INTEGER NOT NULL,
 	`ProductId` INTEGER NOT NULL,
@@ -192,10 +194,17 @@ CREATE TABLE `OrderItems` (
 	FOREIGN KEY(`CustomerId`) REFERENCES `Customer`(`CustomerId`)
 	FOREIGN KEY(`OrderId`) REFERENCES `Orders`(`OrderId`)
 )
+SELECT p.Price, p.ProductId, o.OrderId, o.CustomerId
+FROM Product p, Orders o
+WHERE p.ProductId = o.ProductId
+Group By p.Price Order By p.ProductId
 
-INSERT INTO OrderItems (OrderItemId, Quantity, PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 1,3, 2, 6, 8)
-INSERT INTO OrderItems(OrderItemId, Quantity, PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 2,3,2,4, 8)
-INSERT INTO OrderItems(OrderItemId, Quantity, PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 2,3,2,3,8)
+SELECT p.Price, p.ProductId
+FROM Product p
+
+INSERT INTO OrderItems (OrderItemId, Quantity, ProductPrice,PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 1, 250, 3, 2, 6, 8)
+INSERT INTO OrderItems(OrderItemId, Quantity, ProductPrice,PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 2, 250, 3,2,4, 8)
+INSERT INTO OrderItems(OrderItemId, Quantity, ProductPrice, PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 2, 250, 3,2,3,8)
 
 
 SELECT o.CustomerId, c.CustomerId, c.OrderId, o.PaymentTypeId, o.ProductId
