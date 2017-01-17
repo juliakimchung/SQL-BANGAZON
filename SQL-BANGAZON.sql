@@ -1,15 +1,28 @@
+DELETE FROM Supervisor;
+DELETE FROM Employee;
+DELETE FROM Computer;
+DELETE FROM TrainingProgram
+DELETE FROM Department;
+
+DELETE FROM OrderItems;
+DELETE FROM Product;
+DELETE FROM Orders;
+DELETE FROM ProductType;
+DELETE FROM Customer;
+
 
 
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS PaymentType;
 DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS Product;
-DROP TABLE IF EXISTS ProductType;
+DROP TABLE IF EXISTS ProductType; 
 DROP TABLE IF EXISTS Computer;
 DROP TABLE IF EXISTS TrainingProgram;
 DROP TABLE IF EXISTS Employee;
 DROP TABLE IF EXISTS Department;
 DROP TABLE IF EXISTS Supervisor;
+DROP TABLE IF EXISTS OrderItems;
 
 CREATE TABLE `Department` (
 	`DepartmentId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -153,27 +166,42 @@ CREATE TABLE `Orders` (
 	`OrderId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`PaymentTypeId` INTEGER NOT NULL,
 	`CustomerId`	INTEGER NOT NULL,
-	`ProductId` INTEGER NOT NULL,
 	FOREIGN KEY(`PaymentTypeId`) REFERENCES `PaymentType`(`PaymentTypeId`),
-	FOREIGN KEY(`ProductId`) REFERENCES `Product`(`ProductId`),
 	FOREIGN KEY(`CustomerId`) REFERENCES `Customer`(`CustomerId`)
 )
 
-INSERT INTO  Orders VALUES(null, "2", "3", "1")
-INSERT INTO  Orders VALUES(null, "1", "2", "2")
-INSERT INTO  Orders VALUES(null, "3", "4", "3")
-INSERT INTO  Orders VALUES(null, "1", "5", "3")
-INSERT INTO  Orders VALUES(null, "1", "6", "5")
-INSERT INTO  Orders VALUES(null, "2", "7", "4")
-INSERT INTO  Orders VALUES(null, "2", "2", "6")
-INSERT INTO  Orders VALUES(null, "3", "2", "6")
-INSERT INTO  Orders VALUES(null, "1", "3", "4")
+INSERT INTO  Orders VALUES(null, "2", "3")
+INSERT INTO  Orders VALUES(null, "1", "2")
+INSERT INTO  Orders VALUES(null, "3", "4")
+INSERT INTO  Orders VALUES(null, "1", "5")
+INSERT INTO  Orders VALUES(null, "1", "6")
+INSERT INTO  Orders VALUES(null, "2", "7")
+INSERT INTO  Orders VALUES(null, "2", "2")
+INSERT INTO  Orders VALUES(null, "3", "2")
+INSERT INTO  Orders VALUES(null, "1", "3")
+
+CREATE TABLE `OrderItems` (
+	`OrderItemId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`Quantity` INTEGER NOT NULL,
+	`PaymentTypeId` INTEGER NOT NULL,
+	`CustomerId`	INTEGER NOT NULL,
+	`ProductId` INTEGER NOT NULL,
+	`OrderId` INTEGER NOT NULL,
+	FOREIGN KEY(`PaymentTypeId`) REFERENCES `PaymentType`(`PaymentTypeId`),
+	FOREIGN KEY(`ProductId`) REFERENCES `Product`(`ProductId`),
+	FOREIGN KEY(`CustomerId`) REFERENCES `Customer`(`CustomerId`)
+	FOREIGN KEY(`OrderId`) REFERENCES `Orders`(`OrderId`)
+)
+
+INSERT INTO OrderItems (OrderItemId, Quantity, PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 1,3, 2, 6, 8)
+INSERT INTO OrderItems(OrderItemId, Quantity, PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 2,3,2,4, 8)
+INSERT INTO OrderItems(OrderItemId, Quantity, PaymentTypeId, CustomerId, ProductId, OrderId)VALUES(null, 2,3,2,3,8)
 
 
-SELECT o.CustomerId, c.CustomerId, c.OrderId, c.LastName
-FROM Orders o, Customer c
+SELECT o.CustomerId, c.CustomerId, c.OrderId, o.PaymentTypeId, o.ProductId
+FROM Orders o, Customer c, Product p
 WHERE o.CustomerId = c.CustomerId
-GROUP BY o.CustomerId ORDER BY c.LastName
+GROUP BY o.CustomerId ORDER BY p.Name
 
 UPDATE Customer
 SET OrderId = 1
@@ -245,5 +273,6 @@ Where ProductId = 6
 UPDATE Product
 SET CustomerId = 3
 Where ProductId = 1
+
 
 
